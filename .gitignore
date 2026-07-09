@@ -1,3 +1,5 @@
 node_modules/
 .env
 /Home-Renovation-Planner/apps/*/node_modules
+/Home-Renovation-Planner/docs/*.md
+/express-practice/node_modules
