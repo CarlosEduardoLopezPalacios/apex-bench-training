@@ -1,9 +1,8 @@
 // TODO: add Zod schemas during exercises.
 
 import z from "zod/v4";
-import { Product } from "../types"; 
-
-const CategoriesEnum = z.enum(['Home', 'Electronics', 'Books']);
+import { Product } from "../types";
+import { CategoriesEnum } from "./globals";
 
 export const GetProductsParamsSchema = z.object({
     query: z.object({

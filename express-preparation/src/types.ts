@@ -1,3 +1,5 @@
+import { Categories } from "./schemas/globals";
+
 export type Product = {
   id: number;
   name: string;
@@ -17,6 +19,7 @@ export type OrderItem = {
   productId: number;
   quantity: number;
   unitPrice: number;
+  category: Categories;
 };
 
 export type Order = {

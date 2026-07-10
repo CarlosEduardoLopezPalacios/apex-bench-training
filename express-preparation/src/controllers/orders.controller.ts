@@ -1,7 +1,7 @@
 import type { Request, Response, NextFunction } from "express";
-import { getOrderDetailsById, getOrdersList } from "../services/orders.service";
+import { getOrderDetailsById, getOrdersList, getTotalOrdersByCategory } from "../services/orders.service";
 import { ValidatedResponse } from "../schemas/globals";
-import { OrderDetailsRequest, OrderDetailsResponse, OrderListRequest, OrderListResponse } from "../schemas/orders.schema";
+import { OrderDetailsRequest, OrderDetailsResponse, OrderListRequest, OrderListResponse, OrderTotalsByCategoryRequest, OrderTotalsByCategoryResponse } from "../schemas/orders.schema";
 
 export function listOrders(_req: Request, res: ValidatedResponse<OrderListRequest, OrderListResponse>, next: NextFunction) {
   try {
@@ -24,10 +24,10 @@ export function getOrderById(_req: Request, res: ValidatedResponse<OrderDetailsR
   }
 }
 
-export async function getTotalsByCategory(req: Request, res: Response, next: NextFunction) {
+export async function getTotalsByCategory(_req: Request, res: ValidatedResponse<OrderTotalsByCategoryRequest, OrderTotalsByCategoryResponse>, next: NextFunction) {
   try {
-    // TODO: exercise 8
-    return res.status(501).json({ message: "Not implemented" });
+    const totals = getTotalOrdersByCategory();
+    return res.status(200).json(totals as OrderTotalsByCategoryResponse);
   } catch (err) {
     next(err);
   }
