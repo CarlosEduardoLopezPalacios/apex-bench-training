@@ -11,5 +11,5 @@ export const db = {
     { id: 1, name: "Carlos", email: "carlos@example.com", passwordHash: "hashed_password" },
   ] satisfies User[],
 
-  orders: [] satisfies Order[],
+  orders: [] as Order[],
 };

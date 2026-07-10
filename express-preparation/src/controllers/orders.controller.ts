@@ -1,18 +1,24 @@
 import type { Request, Response, NextFunction } from "express";
+import { getOrderDetailsById, getOrdersList } from "../services/orders.service";
+import { ValidatedResponse } from "../schemas/globals";
+import { OrderDetailsRequest, OrderDetailsResponse, OrderListRequest, OrderListResponse } from "../schemas/orders.schema";
 
-export async function listOrders(_req: Request, res: Response, next: NextFunction) {
+export function listOrders(_req: Request, res: ValidatedResponse<OrderListRequest, OrderListResponse>, next: NextFunction) {
   try {
-    // TODO: exercise 6
-    return res.status(501).json({ message: "Not implemented" });
+    const orders = getOrdersList();
+
+    return res.status(200).json({ orders });
+    
   } catch (err) {
     next(err);
   }
 }
 
-export async function getOrderById(req: Request, res: Response, next: NextFunction) {
+export function getOrderById(_req: Request, res: ValidatedResponse<OrderDetailsRequest, OrderDetailsResponse>, next: NextFunction) {
   try {
-    // TODO: exercise 7
-    return res.status(501).json({ message: "Not implemented" });
+    const { params: { id } } = res.locals.validated;
+    const order = getOrderDetailsById(id);
+    return res.status(200).json({ order });
   } catch (err) {
     next(err);
   }
