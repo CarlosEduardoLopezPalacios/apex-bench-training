@@ -39,7 +39,19 @@ export function findTotalOrdersByCategory() {
   })
 }
 
-export function insertOrder(order: Order) {
-  db.orders.push(order);
-  return order;
+export function findLastId(): number {
+  return db.orders.reduce((acc, order) => {
+    if (acc > order.id) {
+      return acc;
+    }
+    acc = order.id;
+    return acc;
+  }, 0)
+}
+
+
+export function insertOrder(order: Omit<Order, 'id'>) {
+  const newOrder = { ...order, id: findLastId() + 1 };
+  db.orders.push(newOrder);
+  return newOrder;
 }

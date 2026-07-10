@@ -9,6 +9,9 @@ export const db = {
 
   users: [
     { id: 1, name: "Carlos", email: "carlos@example.com", passwordHash: "hashed_password" },
+    { id: 2, name: "Ana", email: "ana@example.com", passwordHash: "hashed_password" },
+    { id: 3, name: "Luis", email: "luis@example.com", passwordHash: "hashed_password" },
+    { id: 4, name: "Sofia", email: "sofia@example.com", passwordHash: "hashed_password" },
   ] satisfies User[],
 
   orders: [

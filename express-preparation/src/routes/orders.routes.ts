@@ -6,7 +6,7 @@ import {
   listOrders,
 } from "../controllers/orders.controller";
 import { validateRequest } from "../middlewares/validateRequest";
-import { OrderDetailsRequestSchema, OrderListRequestSchema, OrderTotalsByCategoryRequestSchema } from "../schemas/orders.schema";
+import { CreateOrderRequestSchema, OrderDetailsRequestSchema, OrderListRequestSchema, OrderTotalsByCategoryRequestSchema } from "../schemas/orders.schema";
 
 export const ordersRouter = Router();
 
@@ -25,4 +25,8 @@ ordersRouter.get(
   validateRequest(OrderDetailsRequestSchema),
   getOrderById
 );
-ordersRouter.post("/", createOrder);
+ordersRouter.post(
+  "/",
+  validateRequest(CreateOrderRequestSchema),
+  createOrder
+);

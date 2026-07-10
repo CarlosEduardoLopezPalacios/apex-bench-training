@@ -1,5 +1,5 @@
 import { db } from "../data/db";
-import type { Product } from "../types";
+import type { OrderItem, Product } from "../types";
 
 export function findAllProducts() {
   return db.products;
@@ -64,4 +64,15 @@ export function removeProductById(id: number) {
 
   db.products.splice(index, 1);
   return true;
+}
+
+export function decreaseProductStock(id: Product['id'], quantity: number) {
+  const index = db.products.findIndex((p) => p.id === id);
+
+  if (index === -1 || db.products[index].stock < quantity) {
+    return undefined;
+  }
+
+  db.products[index].stock -= quantity;
+  return db.products[index];
 }

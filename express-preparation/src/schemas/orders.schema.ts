@@ -46,3 +46,20 @@ export const OrderTotalsByCategoryResponseSchema = z.array(
 );
 
 export type OrderTotalsByCategoryResponse = z.infer<typeof OrderTotalsByCategoryResponseSchema>
+
+export const CreateOrderRequestSchema = z.object({
+    query: z.object().optional(),
+    body: z.object({
+        userId: z.coerce.number().int().positive(),
+        items: z.array(z.object({
+            productId: z.coerce.number().int().positive(),
+            quantity: z.coerce.number().int().positive().min(1),
+        })).min(1),
+        total: z.coerce.number().int().positive(),
+    }),
+    params: z.object().optional(),
+});
+
+export type CreateOrderRequest = z.infer<typeof CreateOrderRequestSchema>;
+
+export type CreateOrderResponse = Order;
