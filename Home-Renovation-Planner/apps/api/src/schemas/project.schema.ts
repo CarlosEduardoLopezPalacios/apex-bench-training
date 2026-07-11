@@ -1,7 +1,25 @@
-import { z } from "zod";
+import { z } from "zod/v4";
+import { emptyRequestPart, uuidSchema } from "#app/schemas/globals";
+import type { ProjectDto } from "#app/dtos/project.dto";
 
-export const createProjectSchema = z.object({
-  body: z.object({
+const projectParams = z.strictObject({
+  projectId: uuidSchema,
+});
+
+export const listProjectsSchema = z.strictObject({
+  body: emptyRequestPart,
+  params: emptyRequestPart,
+  query: emptyRequestPart,
+});
+
+export const getProjectByIdSchema = z.strictObject({
+  body: emptyRequestPart,
+  params: projectParams,
+  query: emptyRequestPart,
+});
+
+export const createProjectSchema = z.strictObject({
+  body: z.strictObject({
     name: z
       .string()
       .trim()
@@ -14,11 +32,13 @@ export const createProjectSchema = z.object({
       .optional()
       .nullable(),
   }),
+  params: emptyRequestPart,
+  query: emptyRequestPart,
 });
 
-export const updateProjectSchema = z.object({
+export const updateProjectSchema = z.strictObject({
   body: z
-    .object({
+    .strictObject({
       name: z
         .string()
         .trim()
@@ -35,12 +55,36 @@ export const updateProjectSchema = z.object({
     .refine((data) => Object.keys(data).length > 0, {
       message: "At least one field is required",
     }),
+  params: projectParams,
+  query: emptyRequestPart,
 });
 
-export type CreateProjectInput = z.infer<
-  typeof createProjectSchema
->["body"];
+export const deleteProjectSchema = z.strictObject({
+  body: emptyRequestPart,
+  params: projectParams,
+  query: emptyRequestPart,
+});
 
-export type UpdateProjectInput = z.infer<
-  typeof updateProjectSchema
->["body"];
+export type ListProjectsRequest = z.infer<typeof listProjectsSchema>;
+export type GetProjectByIdRequest = z.infer<typeof getProjectByIdSchema>;
+export type CreateProjectRequest = z.infer<typeof createProjectSchema>;
+export type UpdateProjectRequest = z.infer<typeof updateProjectSchema>;
+export type DeleteProjectRequest = z.infer<typeof deleteProjectSchema>;
+
+export interface CreateProjectResponse {
+  data: ProjectDto;
+}
+
+export interface ListProjectsResponse {
+  data: ProjectDto[];
+}
+
+export interface GetProjectByIdResponse {
+  data: ProjectDto;
+}
+
+export interface UpdateProjectResponse {
+  data: ProjectDto;
+}
+
+export type DeleteProjectResponse = void;

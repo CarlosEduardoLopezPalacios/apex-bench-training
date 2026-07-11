@@ -1,13 +1,7 @@
 import { Sequelize } from "sequelize";
-import dotenv from "dotenv";
+import { env } from "#app/config/env";
 
-dotenv.config();
-
-if (!process.env.DATABASE_URL) {
-  throw new Error("DATABASE_URL is required");
-}
-
-export const sequelize = new Sequelize(process.env.DATABASE_URL, {
+export const sequelize = new Sequelize(env.DATABASE_URL, {
   dialect: "postgres",
   logging: false,
 });

@@ -1,11 +1,11 @@
-import { projectsRepository } from "../repositories/projects.repository";
-import { HttpError } from "../utils/http-error";
+import { projectsRepository } from "#app/repositories/projects.repository";
+import { HttpError } from "#app/utils/http-error";
 import type {
-  CreateProjectInput,
-  UpdateProjectInput,
-} from "../schemas/project.schema";
+  CreateProjectDto,
+  UpdateProjectDto,
+} from "#app/dtos/project.dto";
 
-async function createProject(input: CreateProjectInput) {
+async function createProject(input: CreateProjectDto) {
   return projectsRepository.create(input);
 }
 
@@ -23,24 +23,22 @@ async function getProjectById(projectId: string) {
   return project;
 }
 
-async function updateProject(projectId: string, input: UpdateProjectInput) {
-  const project = await projectsRepository.findById(projectId);
+async function updateProject(projectId: string, input: UpdateProjectDto) {
+  const project = await projectsRepository.updateById(projectId, input);
 
   if (!project) {
     throw new HttpError(404, "Project not found");
   }
 
-  return projectsRepository.update(project, input);
+  return project;
 }
 
 async function deleteProject(projectId: string) {
-  const project = await projectsRepository.findById(projectId);
+  const deleted = await projectsRepository.removeById(projectId);
 
-  if (!project) {
+  if (!deleted) {
     throw new HttpError(404, "Project not found");
   }
-
-  await projectsRepository.remove(project);
 }
 
 export const projectsService = {

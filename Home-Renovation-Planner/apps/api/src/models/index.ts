@@ -1,6 +1,6 @@
-import { Project } from "./project.model";
-import { Space } from "./space.model";
-import { AiRecommendation } from "./ai-recommendation.model";
+import { Project } from "#app/models/project.model";
+import { Space } from "#app/models/space.model";
+import { AiRecommendation } from "#app/models/ai-recommendation.model";
 
 Project.hasMany(Space, {
   foreignKey: "projectId",

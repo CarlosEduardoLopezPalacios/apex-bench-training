@@ -1,10 +1,31 @@
 import type { Request, Response } from "express";
-import { asyncHandler } from "../middleware/async-handler";
-import { projectsService } from "../services/projects.services";
+import { asyncHandler } from "#app/middleware/async-handler";
+import { projectsService } from "#app/services/projects.services";
+import type {
+  CreateProjectRequest,
+  CreateProjectResponse,
+  DeleteProjectRequest,
+  DeleteProjectResponse,
+  GetProjectByIdRequest,
+  GetProjectByIdResponse,
+  ListProjectsRequest,
+  ListProjectsResponse,
+  UpdateProjectRequest,
+  UpdateProjectResponse,
+} from "#app/schemas/project.schema";
+import type { ValidatedResponse } from "#app/schemas/globals";
+import {
+  toCreateProjectDto,
+  toUpdateProjectDto,
+} from "#app/dtos/project.dto";
 
 export const createProject = asyncHandler(
-  async (req: Request, res: Response) => {
-    const project = await projectsService.createProject(req.body);
+  async (
+    _req: Request,
+    res: ValidatedResponse<CreateProjectRequest, CreateProjectResponse>
+  ) => {
+    const input = toCreateProjectDto(res.locals.validated.body);
+    const project = await projectsService.createProject(input);
 
     res.status(201).json({
       data: project,
@@ -13,7 +34,10 @@ export const createProject = asyncHandler(
 );
 
 export const getProjects = asyncHandler(
-  async (_req: Request, res: Response) => {
+  async (
+    _req: Request,
+    res: ValidatedResponse<ListProjectsRequest, ListProjectsResponse>
+  ) => {
     const projects = await projectsService.getProjects();
 
     res.json({
@@ -23,8 +47,13 @@ export const getProjects = asyncHandler(
 );
 
 export const getProjectById = asyncHandler(
-  async (req: Request, res: Response) => {
-    const project = await projectsService.getProjectById(req.params.projectId as string);
+  async (
+    _req: Request,
+    res: ValidatedResponse<GetProjectByIdRequest, GetProjectByIdResponse>
+  ) => {
+    const project = await projectsService.getProjectById(
+      res.locals.validated.params.projectId
+    );
 
     res.json({
       data: project,
@@ -33,10 +62,15 @@ export const getProjectById = asyncHandler(
 );
 
 export const updateProject = asyncHandler(
-  async (req: Request, res: Response) => {
+  async (
+    _req: Request,
+    res: ValidatedResponse<UpdateProjectRequest, UpdateProjectResponse>
+  ) => {
+    const { body, params } = res.locals.validated;
+    const input = toUpdateProjectDto(body);
     const project = await projectsService.updateProject(
-      req.params.projectId as string,
-      req.body
+      params.projectId,
+      input
     );
 
     res.json({
@@ -46,8 +80,11 @@ export const updateProject = asyncHandler(
 );
 
 export const deleteProject = asyncHandler(
-  async (req: Request, res: Response) => {
-    await projectsService.deleteProject(req.params.projectId as string);
+  async (
+    _req: Request,
+    res: ValidatedResponse<DeleteProjectRequest, DeleteProjectResponse>
+  ) => {
+    await projectsService.deleteProject(res.locals.validated.params.projectId);
 
     res.status(204).send();
   }

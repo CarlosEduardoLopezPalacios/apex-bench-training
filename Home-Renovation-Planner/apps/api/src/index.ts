@@ -1,26 +1,7 @@
-import express from "express";
-import cors from "cors";
-import dotenv from "dotenv";
-import { sequelize } from "./config/database";
-import "./models";
-
-import { projectRoutes } from "./routes/projects.routes";
-import { errorHandler } from "./middleware/error-handler";
-
-dotenv.config();
-
-const app = express();
-
-app.use(cors());
-app.use(express.json());
-
-app.get("/health", (_, res) => {
-  res.json({ status: "ok" });
-});
-
-app.use("/api/projects", projectRoutes);
-
-app.use(errorHandler);
+import { sequelize } from "#app/config/database";
+import { env } from "#app/config/env";
+import "#app/models/index";
+import { createApp } from "#app/app";
 
 async function start() {
   await sequelize.authenticate();
@@ -31,10 +12,10 @@ async function start() {
    */
   await sequelize.sync({ alter: true });
 
-  const port = process.env.PORT || 4000;
+  const app = createApp();
 
-  app.listen(port, () => {
-    console.log(`API running on port ${port}`);
+  app.listen(env.PORT, () => {
+    console.log(`API running on port ${env.PORT}`);
   });
 }
 

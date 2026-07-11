@@ -1,5 +1,5 @@
 import { DataTypes, Model, type Optional } from "sequelize";
-import { sequelize } from "../config/database";
+import { sequelize } from "#app/config/database";
 
 export type AiRecommendationType =
   | "design_plan"

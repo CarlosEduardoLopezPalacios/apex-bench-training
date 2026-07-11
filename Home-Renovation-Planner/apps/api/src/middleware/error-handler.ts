@@ -1,5 +1,5 @@
 import type { NextFunction, Request, Response } from "express";
-import { HttpError } from "../utils/http-error";
+import { HttpError } from "#app/utils/http-error";
 
 export function errorHandler(
   error: unknown,
@@ -7,6 +7,30 @@ export function errorHandler(
   res: Response,
   _next: NextFunction
 ) {
+  if (
+    error instanceof Error &&
+    "type" in error &&
+    error.type === "entity.too.large"
+  ) {
+    return res.status(413).json({
+      error: {
+        message: "Payload too large",
+      },
+    });
+  }
+
+  if (
+    error instanceof SyntaxError &&
+    "type" in error &&
+    error.type === "entity.parse.failed"
+  ) {
+    return res.status(400).json({
+      error: {
+        message: "Invalid JSON payload",
+      },
+    });
+  }
+
   if (error instanceof HttpError) {
     return res.status(error.statusCode).json({
       error: {

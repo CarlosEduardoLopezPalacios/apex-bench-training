@@ -5,18 +5,25 @@ import {
   getProjectById,
   getProjects,
   updateProject,
-} from "../controllers/projects.controller";
-import { validateRequest } from "../middleware/validate-request";
+} from "#app/controllers/projects.controller";
+import { validateRequest } from "#app/middleware/validate-request";
 import {
   createProjectSchema,
+  deleteProjectSchema,
+  getProjectByIdSchema,
+  listProjectsSchema,
   updateProjectSchema,
-} from "../schemas/project.schema";
+} from "#app/schemas/project.schema";
 
 export const projectRoutes = Router();
 
-projectRoutes.get("/", getProjects);
+projectRoutes.get("/", validateRequest(listProjectsSchema), getProjects);
 
-projectRoutes.get("/:projectId", getProjectById);
+projectRoutes.get(
+  "/:projectId",
+  validateRequest(getProjectByIdSchema),
+  getProjectById
+);
 
 projectRoutes.post(
   "/",
@@ -30,4 +37,8 @@ projectRoutes.patch(
   updateProject
 );
 
-projectRoutes.delete("/:projectId", deleteProject);
+projectRoutes.delete(
+  "/:projectId",
+  validateRequest(deleteProjectSchema),
+  deleteProject
+);
