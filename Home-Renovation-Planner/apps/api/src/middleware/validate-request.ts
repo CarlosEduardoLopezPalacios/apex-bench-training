@@ -1,6 +1,8 @@
 import type { NextFunction, Request, Response } from "express";
 import type { ZodSchema } from "zod";
 
+type ValidatedRequest = Pick<Request, "body" | "params" | "query">;
+
 export function validateRequest(schema: ZodSchema) {
   return (req: Request, res: Response, next: NextFunction) => {
     const result = schema.safeParse({
@@ -18,9 +20,11 @@ export function validateRequest(schema: ZodSchema) {
       });
     }
 
-    req.body = result.data.body ?? req.body;
-    req.params = result.data.params ?? req.params;
-    req.query = result.data.query ?? req.query;
+    const validated = result.data as Partial<ValidatedRequest>;
+
+    req.body = validated.body ?? req.body;
+    req.params = validated.params ?? req.params;
+    req.query = validated.query ?? req.query;
 
     return next();
   };

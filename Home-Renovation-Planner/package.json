@@ -1,23 +1,18 @@
 {
-  "name": "Home-Renovation-Planner",
+  "name": "home-renovation-planner",
+  "private": true,
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "AI-powered home renovation planning workspace",
   "scripts": {
-    "dev": "pnpm --parallel --filter web --filter api dev",
+    "dev": "pnpm --filter api dev",
     "dev:web": "pnpm --filter web dev",
     "dev:api": "pnpm --filter api dev",
-    "build": "pnpm -r build"
+    "build": "pnpm -r --if-present build",
+    "typecheck": "pnpm -r --if-present typecheck"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "devEngines": {
-    "packageManager": {
-      "name": "pnpm",
-      "version": "^11.9.0",
-      "onFail": "download"
-    }
-  },
+  "packageManager": "pnpm@11.9.0",
   "type": "module"
 }
