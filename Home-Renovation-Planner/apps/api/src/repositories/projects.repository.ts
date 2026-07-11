@@ -22,8 +22,8 @@ function toSpaceSummaryDto(space: SpaceAttributes): SpaceSummaryDto {
     budgetMxn: space.budgetMxn ?? null,
     style: space.style ?? null,
     notes: space.notes ?? null,
-    createdAt: space.createdAt as Date,
-    updatedAt: space.updatedAt as Date,
+    createdAt: (space.createdAt as Date).toISOString(),
+    updatedAt: (space.updatedAt as Date).toISOString(),
   };
 }
 
@@ -34,8 +34,11 @@ function toProjectDto(project: Project): ProjectDto {
     id: plainProject.id,
     name: plainProject.name,
     description: plainProject.description ?? null,
-    createdAt: plainProject.createdAt as Date,
-    updatedAt: plainProject.updatedAt as Date,
+    status: plainProject.status,
+    totalBudgetMxn: plainProject.totalBudgetMxn ?? null,
+    currency: plainProject.currency,
+    createdAt: (plainProject.createdAt as Date).toISOString(),
+    updatedAt: (plainProject.updatedAt as Date).toISOString(),
     ...(plainProject.spaces && {
       spaces: plainProject.spaces.map(toSpaceSummaryDto),
     }),

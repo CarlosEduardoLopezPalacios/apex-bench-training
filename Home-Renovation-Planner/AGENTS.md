@@ -1,6 +1,6 @@
 # Codex rules for Home Renovation Planner
 
-These instructions apply to the entire repository. Read `docs/BACKEND_ARCHITECTURE.md` before modifying the API.
+These instructions apply to the entire repository. Read `docs/BACKEND_ARCHITECTURE.md` before modifying the API and `docs/DOMAIN_DECISIONS.md` before changing domain behavior or data contracts.
 
 ## Mandatory backend flow
 

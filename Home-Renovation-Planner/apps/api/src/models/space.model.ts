@@ -7,7 +7,7 @@ export interface SpaceAttributes {
   name: string;
   widthM?: number | null;
   lengthM?: number | null;
-  budgetMxn?: number | null;
+  budgetMxn?: string | null;
   style?: string | null;
   notes?: string | null;
   createdAt?: Date;
@@ -35,7 +35,7 @@ export class Space
   declare name: string;
   declare widthM?: number | null;
   declare lengthM?: number | null;
-  declare budgetMxn?: number | null;
+  declare budgetMxn?: string | null;
   declare style?: string | null;
   declare notes?: string | null;
   declare readonly createdAt: Date;
@@ -59,7 +59,7 @@ Space.init(
       allowNull: false,
     },
     widthM: {
-      type: DataTypes.DECIMAL,
+      type: DataTypes.DECIMAL(14, 2),
       allowNull: true,
       field: "width_m",
     },

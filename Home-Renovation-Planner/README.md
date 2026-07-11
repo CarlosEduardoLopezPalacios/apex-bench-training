@@ -60,7 +60,7 @@ apps/
 docs/        Product description and roadmap
 ```
 
-See [the project description](docs/PROJECT_DESCRIPTION.md), [the roadmap](docs/ROADMAP.md), and the actionable [PR plan](docs/PR_PLAN.md) for product scope and implementation progress.
+See [the project description](docs/PROJECT_DESCRIPTION.md), approved [domain decisions](docs/DOMAIN_DECISIONS.md), [the roadmap](docs/ROADMAP.md), and the actionable [PR plan](docs/PR_PLAN.md) for product scope and implementation progress.
 
 ## Engineering rules
 

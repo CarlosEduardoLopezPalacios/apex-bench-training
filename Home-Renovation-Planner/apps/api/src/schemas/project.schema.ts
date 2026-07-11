@@ -1,10 +1,24 @@
 import { z } from "zod/v4";
-import { emptyRequestPart, uuidSchema } from "#app/schemas/globals";
+import {
+  emptyRequestPart,
+  moneyStringSchema,
+  uuidSchema,
+} from "#app/schemas/globals";
 import type { ProjectDto } from "#app/dtos/project.dto";
 
 const projectParams = z.strictObject({
   projectId: uuidSchema,
 });
+
+const projectStatusSchema = z.enum([
+  "planning",
+  "in_progress",
+  "paused",
+  "completed",
+  "cancelled",
+]);
+
+const projectCurrencySchema = z.literal("MXN");
 
 export const listProjectsSchema = z.strictObject({
   body: emptyRequestPart,
@@ -28,9 +42,12 @@ export const createProjectSchema = z.strictObject({
     description: z
       .string()
       .trim()
-      .max(1000, "Description is too long")
+      .max(2000, "Description is too long")
       .optional()
       .nullable(),
+    status: projectStatusSchema.optional(),
+    totalBudgetMxn: moneyStringSchema.optional().nullable(),
+    currency: projectCurrencySchema.optional(),
   }),
   params: emptyRequestPart,
   query: emptyRequestPart,
@@ -48,9 +65,12 @@ export const updateProjectSchema = z.strictObject({
       description: z
         .string()
         .trim()
-        .max(1000, "Description is too long")
+        .max(2000, "Description is too long")
         .optional()
         .nullable(),
+      status: projectStatusSchema.optional(),
+      totalBudgetMxn: moneyStringSchema.optional().nullable(),
+      currency: projectCurrencySchema.optional(),
     })
     .refine((data) => Object.keys(data).length > 0, {
       message: "At least one field is required",
